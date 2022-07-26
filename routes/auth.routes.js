@@ -3,9 +3,8 @@ const nodemailer = require("nodemailer");
 const User = require("../models/User.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const possibleCredentials = require("../middleware/possibleCredentials.mid");
-const authentication = require("../middleware/authentication.mid");
-const Wishlist = require("../models/Wishlist.model");
+const possibleCredentials = require("../middlewares/possibleCredentials.mid");
+const authentication = require("../middlewares/authentication.mid");
 
 require("dotenv").config();
 console.log("inside : ", process.env.EMAILEE, process.env.EMAILEE_PASS);
@@ -49,10 +48,7 @@ router.post("/signup", possibleCredentials, async (req, res, next) => {
       address : {country :"", number : "", street : "", zipcode : "", city : "" }
     });
     console.log("user ID : ", ans);
-    const wishListAns = await Wishlist.create({
-      userId: ans._id,
-      products: [],
-    });
+
 
     res.status(201).json(ans);
 
