@@ -1,0 +1,27 @@
+[
+    {
+        "price": 1.29,
+        "priceType": "unit",
+        "pictures":["https://static.greenweez.com/images/products/110000/600/greenweez-macaronis-complets-bio-italie-500g.jpg"],
+        "name": "Macaronis complets Bio Italie 500g",
+        "stockQuantity": 40,
+        "brand": "Greenweez",
+        "caracteristics": {
+            "ingreditents":
+                [
+                "semoule",
+                "blé complet"
+                ],
+            "valeur nutritionnelles pour 100g":
+                {
+                    "Energie" : "1409 KJ / 345 Kcal", 
+                    "Matières grasses" : "2,7 g dont acides gras saturés : 0,6 g", 
+                    "Glucides" : "65 g dont sucres : 5,0 g",
+                    "Fibres" : "5,2 g",
+                    "Protéines" : "12,0 g", 
+                    "Sel" : "0,0 g" 
+                }
+                 
+        }
+    }
+]
