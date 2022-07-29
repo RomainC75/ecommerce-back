@@ -1,13 +1,19 @@
 const { Schema, model } = require('mongoose')
 
 const productSchema = new Schema({
+    brand: {type: String, required:true},
+    name: {type: String, required:true, unique:true},
     price: Number,
     priceType: {type:String, enum:['unit','kg'],default:"unit", required:true},
-    pictures:[{type:String}],
-    name: {type: String, required:true, unique:true},
     stockQuantity: {type: Number, required:true},
-    brand: {type: String, required:true},
-    caracteristics: Object,
+    pictures:[{type:String}],
+    caracteristics: {type:Object},
+    categories:[ {type:String} ],
+    // size:{
+    //     h:{type:Number},
+    //     l:{type:Number},
+    //     w:{type:Number}
+    // },
 },{
     timestamps:true
 })

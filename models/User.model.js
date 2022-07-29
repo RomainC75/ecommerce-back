@@ -11,10 +11,11 @@ const userSchema = new Schema(
     firstName: String,
     lastName: String,
     address: {
-      number: Number,
-      street: String,
-      zipcode: Number,
+      street1: String,
+      street2: String,
       city: String,
+      zip: String,
+      state: String,
       country: String,
     },
     isMailValidated: {
