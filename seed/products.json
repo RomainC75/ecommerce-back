@@ -1,13 +1,13 @@
 [
     {
+        "brand": "Greenweez",
+        "name": "Macaronis complets Bio Italie 500g",
         "price": 1.29,
         "priceType": "unit",
-        "pictures":["https://static.greenweez.com/images/products/110000/600/greenweez-macaronis-complets-bio-italie-500g.jpg"],
-        "name": "Macaronis complets Bio Italie 500g",
         "stockQuantity": 40,
-        "brand": "Greenweez",
+        "pictures":["https://static.greenweez.com/images/products/110000/600/greenweez-macaronis-complets-bio-italie-500g.jpg"],
         "caracteristics": {
-            "ingreditents":
+            "ingredients":
                 [
                 "semoule",
                 "blé complet"
@@ -22,6 +22,78 @@
                     "Sel" : "0,0 g" 
                 }
                  
-        }
+        },
+        "categories": ["epicerieSalee"],
+        "subCategory": "patesCompletes",
+        "weight":500
+    },
+    {
+        "brand": "Greenweez",
+        "name": "Torsades complètes Bio Italie 500g",
+        "price": 1.29,
+        "priceType": "unit",
+        "stockQuantity": 35,
+        "pictures":["https://static.greenweez.com/images/products/110000/600/greenweez-torsades-completes-bio-italie-500g.jpg"],
+        "caracteristics": {
+            "ingredients":
+                [
+                "semoule de blé dur",
+                "blé complet"
+                ],
+            "valeur nutritionnelles pour 100g":
+                {
+                    "Energie" : "1305 KJ / 345 Kcal", 
+                    "Matières grasses" : "2,5 g dont acides gras saturés : 0,6 g", 
+                    "Glucides" : "66 g dont sucres : 5,0 g",
+                    "Fibres" : "5 g",
+                    "Protéines" : "12,0 g", 
+                    "Sel" : "0,0 g" 
+                }
+                 
+        },
+        "categories": ["epicerieSalee"],
+        "subCategory": "patesCompletes",
+        "wieght":500
+    },
+    {
+        "brand": "Greenweez",
+        "name": "Pesto vert biologique 180g",
+        "price": 2.29,
+        "priceType": "unit",
+        "stockQuantity": 15,
+        "pictures":["https://static.greenweez.com/images/products/219000/600/greenweez-pesto-vert-biologique-180g.jpg"],
+        "caracteristics": {
+            "ingredients":
+                [
+                    "Basilic italien* 39%", "huile de graines de tournesol*", "huile d'olive extra vierge*", "noix de cajou*", "sel", "fromage* (lait*, sel, présure)", "pignons de pin*", "ail*", "antioxydant : acide ascorbique, régulateur d'acidité : acide citrique"
+                ],
+            "valeur nutritionnelles pour 100g":
+                {
+                    "Energie" : "1963 kJ / 476 kcal ", 
+                    "Matières grasses" : "48 g dont acides gras saturés : 6.5 g", 
+                    "Glucides" : "4.6 g",
+                    "Fibres" : "4.6 g",
+                    "Protéines" : "5.2 g", 
+                    "Sel" : "2.4 g" 
+                }
+                 
+        },
+        "categories": ["epicerieSalee","saucesEtCoulis","sauces"],
+        "subCategory": "saucePesto",
+        "weight":180
+    },
+    {
+        "brand": "Babybio",
+        "name": "Babybio Optima 3 lait de croissance 800g",
+        "price": 16.35,
+        "priceType": "unit",
+        "stockQuantity": 23,
+        "pictures":["https://static.greenweez.com/images/products/114000/600/babybio-babybio-optima-3-lait-de-croissance-800g.jpg"],
+        "caracteristics": {
+            "caractéristiques":"Lait de suite biologique en poudre pour nourrissons à partir de 10 mois et aliment lacté biologique en poudre pour enfants en bas âge. Conformément à la réglementation, la formule Optima Croissance : - Contient des LCP : acides gras polyinsaturés à longue chaîne de la famille des oméga 3 (DHA). Contient également des LCP de la famille des oméga 6 (ARA). - Contient des fibres prébiotiques de type FOS (fructo-oligosaccharides) et GOS (galactooligosaccharides). - Contient plus de fer, plus d'acides gras essentiels et moins de protéines que le lait de vache. - Apporte de la vitamine D qui est nécessaire à une croissance et à un développement osseux normaux des enfants. - Apporte 13 vitamines et 13 minéraux."
+        },
+        "categories": [ "bebe&enfant","alimentationBebe","laitInfantile" ],
+        "subCategory": "laitDeCroissanceBio",
+        "weight":800
     }
 ]

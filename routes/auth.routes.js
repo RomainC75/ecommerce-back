@@ -20,7 +20,7 @@ let transporter = nodemailer.createTransport({
 router.get("/verify", authentication, async (req, res, next) => {
   try {
     console.log("VERIFY : --->", req.user);
-    res.status(200).json({ user: req.user });
+    res.status(200).json(req.user);
   } catch (e) {
     next(e);
   }

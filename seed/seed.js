@@ -10,10 +10,13 @@ const seed = () =>{
             
             const ans = await Product.create(productList)
             console.log('answer : ',ans)
+
+
+            resolve()
         }catch(e){
             reject(e)
         }
     })
 }
 
-seed()
+seed().then(x=>console.log('------>DONE !'))
