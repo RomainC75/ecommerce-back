@@ -10,7 +10,8 @@ const productSchema = new Schema({
     caracteristics: {type:Object},
     categories:[ {type:String} ],
     subCategory:{type:String, required:true},
-    weight:Number
+    originCountry: {type:String},
+    weight:{type: Number, required:true}
     // size:{
     //     h:{type:Number},
     //     l:{type:Number},

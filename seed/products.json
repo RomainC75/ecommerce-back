@@ -25,7 +25,8 @@
         },
         "categories": ["epicerieSalee"],
         "subCategory": "patesCompletes",
-        "weight":500
+        "weight":500,
+        "originCountry":"France"
     },
     {
         "brand": "Greenweez",
@@ -53,7 +54,8 @@
         },
         "categories": ["epicerieSalee"],
         "subCategory": "patesCompletes",
-        "wieght":500
+        "weight":500,
+        "originCountry":"France"
     },
     {
         "brand": "Greenweez",
@@ -80,7 +82,8 @@
         },
         "categories": ["epicerieSalee","saucesEtCoulis","sauces"],
         "subCategory": "saucePesto",
-        "weight":180
+        "weight":180,
+        "originCountry":"France"
     },
     {
         "brand": "Babybio",
@@ -94,6 +97,7 @@
         },
         "categories": [ "bebe&enfant","alimentationBebe","laitInfantile" ],
         "subCategory": "laitDeCroissanceBio",
-        "weight":800
+        "weight":800,
+        "originCountry":"France"
     }
 ]
