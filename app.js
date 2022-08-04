@@ -20,7 +20,7 @@ const allRoutes = require("./routes/index.routes");
 app.use("/api", allRoutes);
 app.use("/auth",require('./routes/auth.routes'))
 app.use("/emailConfirmation",require('./routes/emailConfirmation'))
-app.use("/category",require('./routes/category.routes'))
+app.use("/product",require('./routes/product.routes'))
 app.use("/cart",require('./routes/cart.routes'))
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

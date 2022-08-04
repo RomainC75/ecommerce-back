@@ -5,7 +5,7 @@ const authentication = require('../middlewares/authentication.mid')
 router.get('/',authentication, async(req,res,next)=>{
     console.log(req.user)
     try {
-        const ans = await Cart.findOne({userId:req.user._id})
+        const ans = await Cart.findOne({userId:req.user._id}).select({userId:0})
         res.status(200).json(ans)
     } catch (error) {
         next(error)
