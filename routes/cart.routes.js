@@ -1,11 +1,12 @@
 const router = require('express').Router()
 const Cart = require("../models/Cart.model")
 const authentication = require('../middlewares/authentication.mid')
+const Product = require('../models/Product.model')
 
 router.get('/',authentication, async(req,res,next)=>{
     console.log(req.user)
     try {
-        const ans = await Cart.findOne({userId:req.user._id}).select({userId:0})
+        const ans = await Cart.findOne({userId:req.user._id}).select({userId:0}).populate('products.productId')
         res.status(200).json(ans)
     } catch (error) {
         next(error)
