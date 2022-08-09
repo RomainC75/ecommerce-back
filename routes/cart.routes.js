@@ -50,7 +50,7 @@ router.patch('/',authentication, async (req,res,next)=>{
             res.json(404).json({message:"cart doesn\'t exist !"})
             return
         }
-        const ansUpdate = await Cart.findOneAndUpdate({userId:req.user._id},{products:req.body},{new:true})
+        const ansUpdate = await Cart.findOneAndUpdate({userId:req.user._id},{products:req.body},{new:true}).populate('products.productId')
         res.status(200).json(ansUpdate)
     } catch (error) {
         next(error)

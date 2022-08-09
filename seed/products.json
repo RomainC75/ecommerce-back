@@ -13,14 +13,14 @@
                 "blé complet"
                 ],
             "valeur nutritionnelles pour 100g":
-                {
-                    "Energie" : "1409 KJ / 345 Kcal", 
-                    "Matières grasses" : "2,7 g dont acides gras saturés : 0,6 g", 
-                    "Glucides" : "65 g dont sucres : 5,0 g",
-                    "Fibres" : "5,2 g",
-                    "Protéines" : "12,0 g", 
-                    "Sel" : "0,0 g" 
-                }
+                [
+                    "Energie : 1409 KJ / 345 Kcal", 
+                    "Matières grasses : 2,7 g dont acides gras saturés : 0,6 g", 
+                    "Glucides : 65 g dont sucres : 5,0 g",
+                    "Fibres : 5,2 g",
+                    "Protéines : 12,0 g", 
+                    "Sel : 0,0 g" 
+                ]
                  
         },
         "categories": ["epicerieSalee"],
@@ -42,14 +42,14 @@
                 "blé complet"
                 ],
             "valeur nutritionnelles pour 100g":
-                {
-                    "Energie" : "1305 KJ / 345 Kcal", 
-                    "Matières grasses" : "2,5 g dont acides gras saturés : 0,6 g", 
-                    "Glucides" : "66 g dont sucres : 5,0 g",
-                    "Fibres" : "5 g",
-                    "Protéines" : "12,0 g", 
-                    "Sel" : "0,0 g" 
-                }
+                [
+                    "Energie : 1305 KJ / 345 Kcal", 
+                    "Matières grasses : 2,5 g dont acides gras saturés : 0,6 g", 
+                    "Glucides : 66 g dont sucres : 5,0 g",
+                    "Fibres : 5 g",
+                    "Protéines : 12,0 g", 
+                    "Sel : 0,0 g" 
+                ]
                  
         },
         "categories": ["epicerieSalee"],
@@ -70,14 +70,14 @@
                     "Basilic italien* 39%", "huile de graines de tournesol*", "huile d'olive extra vierge*", "noix de cajou*", "sel", "fromage* (lait*, sel, présure)", "pignons de pin*", "ail*", "antioxydant : acide ascorbique, régulateur d'acidité : acide citrique"
                 ],
             "valeur nutritionnelles pour 100g":
-                {
-                    "Energie" : "1963 kJ / 476 kcal ", 
-                    "Matières grasses" : "48 g dont acides gras saturés : 6.5 g", 
-                    "Glucides" : "4.6 g",
-                    "Fibres" : "4.6 g",
-                    "Protéines" : "5.2 g", 
-                    "Sel" : "2.4 g" 
-                }
+                [
+                    "Energie : 1963 kJ / 476 kcal ", 
+                    "Matières grasses : 48 g dont acides gras saturés : 6.5 g", 
+                    "Glucides : 4.6 g",
+                    "Fibres : 4.6 g",
+                    "Protéines : 5.2 g", 
+                    "Sel : 2.4 g" 
+                ]
                  
         },
         "categories": ["epicerieSalee","saucesEtCoulis","sauces"],
@@ -93,7 +93,7 @@
         "stockQuantity": 23,
         "pictures":["https://static.greenweez.com/images/products/114000/600/babybio-babybio-optima-3-lait-de-croissance-800g.jpg"],
         "caracteristics": {
-            "caractéristiques":"Lait de suite biologique en poudre pour nourrissons à partir de 10 mois et aliment lacté biologique en poudre pour enfants en bas âge. Conformément à la réglementation, la formule Optima Croissance : - Contient des LCP : acides gras polyinsaturés à longue chaîne de la famille des oméga 3 (DHA). Contient également des LCP de la famille des oméga 6 (ARA). - Contient des fibres prébiotiques de type FOS (fructo-oligosaccharides) et GOS (galactooligosaccharides). - Contient plus de fer, plus d'acides gras essentiels et moins de protéines que le lait de vache. - Apporte de la vitamine D qui est nécessaire à une croissance et à un développement osseux normaux des enfants. - Apporte 13 vitamines et 13 minéraux."
+            "caractéristiques":["Lait de suite biologique en poudre pour nourrissons à partir de 10 mois et aliment lacté biologique en poudre pour enfants en bas âge. Conformément à la réglementation, la formule Optima Croissance : - Contient des LCP : acides gras polyinsaturés à longue chaîne de la famille des oméga 3 (DHA). Contient également des LCP de la famille des oméga 6 (ARA). - Contient des fibres prébiotiques de type FOS (fructo-oligosaccharides) et GOS (galactooligosaccharides). - Contient plus de fer, plus d'acides gras essentiels et moins de protéines que le lait de vache. - Apporte de la vitamine D qui est nécessaire à une croissance et à un développement osseux normaux des enfants. - Apporte 13 vitamines et 13 minéraux."]
         },
         "categories": [ "bebe&enfant","alimentationBebe","laitInfantile" ],
         "subCategory": "laitDeCroissanceBio",
