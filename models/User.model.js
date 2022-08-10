@@ -10,14 +10,13 @@ const userSchema = new Schema(
     password: { type: SchemaTypes.String, required: true },
     firstName: String,
     lastName: String,
-    address: {
       street1: String,
       street2: String,
       city: String,
       zip: String,
       state: String,
       country: String,
-    },
+    
     isMailValidated: {
       type: Boolean,
       default: false,
