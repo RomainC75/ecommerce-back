@@ -49,11 +49,8 @@ router.post("/image", authentication,fileUploader.single("image"), async(req, re
         const foundUser = await User.findOne({_id:req.user._id})
         if(foundUser.imageUrl){
             const imageUrlParts = foundUser.imageUrl.split('ecommerce-avatars/')
-            console.log('image name : ',imageUrlParts[1])
             const nameToDelete = `ecommerce-avatars/${imageUrlParts[1].split('.')[0]}`
-            console.log("nameToDelete",nameToDelete)
             cloudinary.uploader.destroy(nameToDelete, function(result) { console.log('--->deleted ? ',result) });
-            console.log('--->',process.env.CLOUDINARY_KEY)        
         }
         const ans = await User.findOneAndUpdate({_id:req.user._id},{imageUrl:req.file.path},{new:true})
         res.json(ans);
