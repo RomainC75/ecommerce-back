@@ -16,6 +16,7 @@ router.use( async (req,res,next)=>{
         req.user = {
             _id:user._id,
             email: user.email,
+            imageUrl:user.imageUrl ? user.imageUrl : "",
             accessLevel: user.accessLevel
         }
         next()
