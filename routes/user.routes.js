@@ -2,6 +2,13 @@ const router=require('express').Router()
 const authentication = require('../middlewares/authentication.mid')
 const User = require("../models/User.model")
 const fileUploader = require('../config/cloudinary.config')
+var cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET
+  });
 
 router.get('/', authentication, async(req,res,next)=>{
     try {
@@ -39,6 +46,15 @@ router.post("/image", authentication,fileUploader.single("image"), async(req, re
         return;
     }
     try {
+        const foundUser = await User.findOne({_id:req.user._id})
+        if(foundUser.imageUrl){
+            const imageUrlParts = foundUser.imageUrl.split('ecommerce-avatars/')
+            console.log('image name : ',imageUrlParts[1])
+            const nameToDelete = `ecommerce-avatars/${imageUrlParts[1].split('.')[0]}`
+            console.log("nameToDelete",nameToDelete)
+            cloudinary.uploader.destroy(nameToDelete, function(result) { console.log('--->deleted ? ',result) });
+            console.log('--->',process.env.CLOUDINARY_KEY)        
+        }
         const ans = await User.findOneAndUpdate({_id:req.user._id},{imageUrl:req.file.path},{new:true})
         res.json(ans);
     }catch(error){
