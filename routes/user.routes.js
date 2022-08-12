@@ -1,6 +1,7 @@
 const router=require('express').Router()
 const authentication = require('../middlewares/authentication.mid')
 const User = require("../models/User.model")
+const fileUploader = require('../config/cloudinary.config')
 
 router.get('/', authentication, async(req,res,next)=>{
     try {
@@ -16,6 +17,7 @@ router.get('/', authentication, async(req,res,next)=>{
 })
 
 router.patch('/', authentication, async(req,res,next)=>{
+    console.log('patch : body :',req.body)
     try {
         const foundUser = await User.findOne({_id:req.user._id})
         if(!foundUser){
@@ -29,6 +31,20 @@ router.patch('/', authentication, async(req,res,next)=>{
         next(error)
     }
 })
+
+router.post("/image", authentication,fileUploader.single("image"), async(req, res, next) => {
+    console.log("file is: ", req.file)    
+    if (!req.file) {
+        next(new Error("No file uploaded!"));
+        return;
+    }
+    try {
+        const ans = await User.findOneAndUpdate({_id:req.user._id},{imageUrl:req.file.path},{new:true})
+        res.json(ans);
+    }catch(error){
+        next(error)
+    }
+});
 
 
 module.exports=router

@@ -8,23 +8,25 @@ const userSchema = new Schema(
       required: true,
     },
     password: { type: SchemaTypes.String, required: true },
-    firstName: String,
-    lastName: String,
-      street1: String,
-      street2: String,
-      city: String,
-      zip: String,
-      state: String,
-      country: String,
-    
+    firstname: String,
+    lastname: String,
+    street1: String,
+    street2: String,
+    city: String,
+    zip: String,
+    state: String,
+    country: String,
+    birtdate:Date,
+
     isMailValidated: {
       type: Boolean,
       default: false,
     },
     emailValidationCode: {
-      type:Number,
-      required:true
-    }
+      type: Number,
+      required: true,
+    },
+    imageUrl:String
   },
   {
     timestamps: true,
