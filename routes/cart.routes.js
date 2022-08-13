@@ -44,6 +44,7 @@ router.post('/',authentication, async(req,res,next)=>{
 })
 
 router.patch('/',authentication, async (req,res,next)=>{
+    console.log('patch received : ',req.body)
     try {
         const ans = await Cart.find({userId:req.user._id})
         if(ans.length===0){
