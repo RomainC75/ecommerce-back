@@ -131,9 +131,14 @@ const getProductsUrlFromCatPage = (page, url) =>{
             const fullAddress = "https://www.greenweez.com/"+url
             console.log('full address : ',fullAddress)
             await page.goto(fullAddress,{waitUntil:"networkidle2"})
-            
+
             clickCookiesButton(page)
             await page.waitForSelector('#result-page__hits li')
+            const res = await page.$x('#result-page__hits li');
+            if(res.length===0){
+                resolve([])
+            }
+
             const productList = await page.evaluate(()=>{
                 const lis = Array.from(document.querySelectorAll('#result-page__hits li'))
                 console.log('-->lis',lis)
@@ -170,15 +175,14 @@ const test = (page,url) =>{
 const getTheProductsUrlWithClusters = (categoriesArray) =>{
     return new Promise(async (resolve,reject)=>{
         try {
-            console.log('categoriesArray',categoriesArray)
             const cluster = await Cluster.launch({ 
                 concurrency: Cluster.CONCURRENCY_PAGE, 
                 maxConcurrency: 3, 
-                monitor: false, 
+                monitor: true, 
                 timeout:10000, 
                 puppeteerOptions: { 
                    headless: false, 
-                   slowMo: 250, 
+                   slowMo: 400, 
                    args: [`--window-size=${1680},${970}`,'--disable-dev-shm-usage'], 
                 }, 
             });
@@ -192,17 +196,19 @@ const getTheProductsUrlWithClusters = (categoriesArray) =>{
             await cluster.task(async ({ page, data: url }) => {
                 console.log('task')
                 // const productsUrl = await getProductsUrlFromCatPage(page,url)
-                const productsUrl=await getProductsUrlFromCatPage(page,url)
-                return productsUrl;
+                const productsUrls=await getProductsUrlFromCatPage(page,url)
+                console.log('==>'+url+' : '+productsUrls)
+                return productsUrls;
             });
 
-            const infos = await Promise.all(Array.from(categoriesArray).map(categoryAddr=>{
+            const infos = await Promise.all(Array.from(categoriesArray).filter((cat,i)=>i<3).map(categoryAddr=>{
                 console.log('categoryAddrr :',categoryAddr)
                 return cluster.execute(categoryAddr);
             }))
+
             await cluster.idle();
             await cluster.close();
-            
+            console.log('-------FIN-------')
             resolve(infos)
         } catch (error) {
             reject('--->',error)
@@ -218,29 +224,56 @@ const scrapeSite = () =>{
             console.log('XXXXX got : ',categoriesUrl)
             const productsUrl = await getTheProductsUrlWithClusters(categoriesUrl)
             console.log('productsUrl',productsUrl)
-            resolve('x')
+            resolve(productsUrl.flat())
         } catch (error) {
             reject(error)
         }
     })
 }
 
-scrapeSite().then(data=>console.log('data')).catch(err=>console.log('err : ',err))
 
-// scrapePage(site_url).then(
-//   (result) => {
-//     dataJSON.push(result);
-//     fs.writeFile(
-//       "data.json",
-//       JSON.stringify(dataJSON),
-//       "utf8",
-//       function (err) {
-//         if (err) {
-//           console.log("An error occured while writing JSON Object to File.");
-//           return console.log(err);
+// scrapeSite().then(data=>console.log('data')).catch(err=>console.log('err : ',err))
+
+scrapeSite().then(
+  (result) => {
+    dataJSON.push(result);
+    fs.writeFile(
+      "data.json",
+      JSON.stringify(dataJSON),
+      "utf8",
+      function (err) {
+            if (err) {
+          console.log("An error occured while writing JSON Object to File.");
+          return console.log(err);
+        }
+        console.log("JSON file has been saved.");
+      }
+    );
+  }
+).catch(err=>console.log('finale err : ',err));
+
+// promotion-dlc-courte-c4897
+// /nos-selections
+// /recettes
+// xxxxxxx
+// const fakeCluster = () =>{
+//     return new Promise (async (resolve,reject)=>{
+//         try {
+//             const browser = await puppeteer.launch({
+//                 headless:false,
+//                 slowmo:300,
+//                 devtools:true
+//             })
+//             const page = await browser.newPage()
+//             await page.setViewport({
+//                 width:1200,
+//                 height:900
+//             })
+//             const data = await getProductsUrlFromCatPage(page, 'xxxx')
+//             resolve(data)
+//         } catch (error) {
+//             reject(error)
 //         }
-//         console.log("JSON file has been saved.");
-//       }
-//     );
-//   }
-// );
+//     }) 
+// }
+// fakeCluster().then(data=>console.log('-->DATA : ',data)).catch(err=>console.log('---->err',err))
