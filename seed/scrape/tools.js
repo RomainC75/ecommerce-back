@@ -1,7 +1,8 @@
 const clickCookiesButton = async (page) =>{
     console.log('click cookies button')
     await page.waitForSelector('#onetrust-accept-btn-handler')
-    const buttons = await page.$x("//button[contains(., 'Tout accepter')]");
+    // const buttons = await page.$x("//button[contains(., 'Tout accepter')]");
+    const buttons = await page.$("#onetrust-accept-btn-handler");
     //   console.log(buttons)
     if (buttons[1]) {
         await buttons[1].click();
