@@ -1,5 +1,10 @@
 const { Schema, model } = require('mongoose')
 
+const weightSchema = new Schema({
+    quantity:{type:Number,required:true},
+    unity:{type:String, required:true}
+})
+
 const productSchema = new Schema({
     brand: {type: String, required:true},
     name: {type: String, required:true, unique:true},
@@ -9,9 +14,9 @@ const productSchema = new Schema({
     pictures:[{type:String}],
     caracteristics: {type:Object},
     categories:[ {type:String} ],
-    subCategory:{type:String, required:true},
+    //subCategory:{type:String, required:true},
     originCountry: {type:String},
-    weight:{type: Number, required:true}
+    weight:weightSchema
     // size:{
     //     h:{type:Number},
     //     l:{type:Number},

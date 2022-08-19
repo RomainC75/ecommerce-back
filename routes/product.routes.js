@@ -1,20 +1,53 @@
 const router = require('express').Router()
 const Product = require('../models/Product.model')
+const {categoriesTranslator} = require('../config/catTranslator')
 
-
-router.get('/category/:category',async (req,res,next)=>{
+router.get('/',async (req,res,next)=>{
     console.log('-->',req.params.category)
     try {
-        const ans = await Product.find({categories:req.params.category})
+        const ans = await Product.find()
         if(ans.length===0){
             res.status(404).json({message:"category not found"})
             return
         }
-        res.status(200).json(ans)
+        console.log('===>PRODUCT',ans.length)
+        // console.log('====>FILTERED : ',Array.from(new Set(ans.map(prod=>prod.categories).flat())))
+        res.status(200).json(ans.filter((prod,i)=>i<50))
     } catch (error) {
         next(error)
     }
 })
+
+router.get('/category/:category',async (req,res,next)=>{
+    console.log('page : ',req.query)
+    const PAGE_SIZE=20
+    const page = parseInt(req.query.page || "0")
+
+    try {
+        console.log('-->',req.params.category)
+        console.log('==>',categoriesTranslator)
+        const translateLine = categoriesTranslator.find(bothT=>bothT[1]===req.params.category)
+        const total = await Product.countDocuments({categories:{$in:[translateLine[0]]}})
+        console.log('total : ',total)
+
+        const ans = await Product.find({categories:{$in:[translateLine[0]]}})
+            .limit(PAGE_SIZE)
+            .skip(PAGE_SIZE*(page-1))
+        console.log('-->CATEGORY / ans : ',ans.length)
+        if(ans.length===0){
+            res.status(404).json({message:"category not found"})
+            return
+        }
+        res.status(200).json({
+            data:ans,
+            page:page,
+            total,
+            totalPages:Math.ceil(total/PAGE_SIZE)})
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 router.get('/list/:idList',async (req,res,next)=>{
     try {
