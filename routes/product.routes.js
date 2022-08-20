@@ -22,15 +22,31 @@ router.get('/category/:category',async (req,res,next)=>{
     console.log('page : ',req.query)
     const PAGE_SIZE=20
     const page = parseInt(req.query.page || "0")
-
+    
+    
     try {
         console.log('-->',req.params.category)
         console.log('==>',categoriesTranslator)
         const translateLine = categoriesTranslator.find(bothT=>bothT[1]===req.params.category)
-        const total = await Product.countDocuments({categories:{$in:[translateLine[0]]}})
+
+        // const total = await Product.countDocuments({categories:{$in:[translateLine[0]]}})
+        
+        const subCategories = [...new Set((await Product.find({categories:{$in:[translateLine[0]]}})).map(prod=>prod.categories.filter((subCat,i)=>i===1)).flat())]
+        console.log('SUBCategories : ',subCategories)
+
+        const rq= Object.keys(req.query).includes('subCat') ? {
+            $and:[
+                {price:{$gt:req.query.minPrice}},
+                {price:{$lt:req.query.maxPrice}},
+                {categories:{$in:[req.query.subCat]}},
+            ]
+            }:{categories:{$in:[translateLine[0]]}}
+
+
+        const total = await Product.countDocuments(rq)
         console.log('total : ',total)
 
-        const ans = await Product.find({categories:{$in:[translateLine[0]]}})
+        const ans = await Product.find(rq)
             .limit(PAGE_SIZE)
             .skip(PAGE_SIZE*(page-1))
         console.log('-->CATEGORY / ans : ',ans.length)
@@ -42,7 +58,9 @@ router.get('/category/:category',async (req,res,next)=>{
             data:ans,
             page:page,
             total,
-            totalPages:Math.ceil(total/PAGE_SIZE)})
+            totalPages:Math.ceil(total/PAGE_SIZE),
+            subCategories
+        })
     } catch (error) {
         next(error)
     }
