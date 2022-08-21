@@ -8,8 +8,8 @@ module.exports=class SQLite{
         return new Promise( (resolve, reject) =>{
             try {
                 this.db.all(query,variArray,function(err,rows){
+                    if(err){reject(err)}
                      console.log(' RES ! :',rows.length)
-                    
                     resolve(rows)
                 })
             } catch (error) {
@@ -21,10 +21,10 @@ module.exports=class SQLite{
         return new Promise((resolve,reject)=>{
             try {
                 this.db.all(query,[],function(err,rows){
+                    if(err){reject(err)}
                     console.log('RUN : ',rows)
                     resolve(true)
                 })
-
             } catch (error) {
                 reject(error)
             }
