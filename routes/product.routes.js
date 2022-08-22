@@ -23,7 +23,6 @@ router.get('/category/:category',async (req,res,next)=>{
     const PAGE_SIZE=20
     const page = parseInt(req.query.page || "0")
     
-    
     try {
         console.log('-->',req.params.category)
         console.log('==>',categoriesTranslator)
@@ -38,9 +37,13 @@ router.get('/category/:category',async (req,res,next)=>{
             $and:[
                 {price:{$gt:req.query.minPrice}},
                 {price:{$lt:req.query.maxPrice}},
-                {categories:{$in:[req.query.subCat]}},
+                {categories:
+                    req.query.subCat==="All" ? {$in:[translateLine[0]]} : {$in:[req.query.subCat]}
+                },
             ]
             }:{categories:{$in:[translateLine[0]]}}
+
+        console.log('RQ : ', rq)
 
 
         const total = await Product.countDocuments(rq)
@@ -49,6 +52,7 @@ router.get('/category/:category',async (req,res,next)=>{
         const ans = await Product.find(rq)
             .limit(PAGE_SIZE)
             .skip(PAGE_SIZE*(page-1))
+
         console.log('-->CATEGORY / ans : ',ans.length)
         if(ans.length===0){
             res.status(404).json({message:"category not found"})
