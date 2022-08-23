@@ -16,7 +16,8 @@ const productSchema = new Schema({
     categories:[ {type:String} ],
     //subCategory:{type:String, required:true},
     originCountry: {type:String},
-    weight:weightSchema
+    weight:weightSchema,
+    promo:{type:String}
     // size:{
     //     h:{type:Number},
     //     l:{type:Number},

@@ -9,6 +9,7 @@ const clickCookiesButton = async (page) =>{
         }
 }
 
+
 const scrollSection =  (page,sectionSelector) => {
     return new Promise (async (resolve, reject)=>{
         console.log('INSIDE');

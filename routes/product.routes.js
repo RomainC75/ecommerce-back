@@ -70,6 +70,42 @@ router.get('/category/:category',async (req,res,next)=>{
     }
 })
 
+// { categories: { '$in': [ 'Epicerie salée' ] } }
+
+// {
+//     '$and': [
+//       { price: {$gt:0}},
+//       { price: {$lt:33} },
+//       { categories: {$in:["Riz bio"]} }
+//     ]
+//   }
+
+router.get("/promo", async(req,res,next)=>{
+    console.log('===>PROMO ! ')
+    const PAGE_SIZE=10
+    const page = req.query.page | 1
+    try {
+        // const total = await Product.countDocuments({promo:{$exists:true}})
+        const total = await Product.countDocuments({promo:{$exists:true}})
+        const ans = await Product.find({promo:{$exists:true}})
+            .limit(PAGE_SIZE)
+            .skip(PAGE_SIZE*(page-1))
+        if(ans.length===0){
+            res.status(404).json({message:"category not found"})
+            return
+        }
+        console.log("***TOTAL*** : ",total,ans.length)
+        res.status(200).json({
+            data:ans,
+            page:page,
+            total,
+            totalPages:Math.ceil(total/PAGE_SIZE)
+        })
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 router.get('/list/:idList',async (req,res,next)=>{
     try {
