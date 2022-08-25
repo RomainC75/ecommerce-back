@@ -82,8 +82,9 @@ router.get('/category/:category',async (req,res,next)=>{
 
 router.get("/promo", async(req,res,next)=>{
     console.log('===>PROMO ! ')
-    const PAGE_SIZE=10
-    const page = req.query.page | 1
+    const PAGE_SIZE=5
+    const page = parseInt(req.query.page || "1")
+    console.log('page query : ',page,req.query)
     try {
         // const total = await Product.countDocuments({promo:{$exists:true}})
         const total = await Product.countDocuments({promo:{$exists:true}})
@@ -95,12 +96,14 @@ router.get("/promo", async(req,res,next)=>{
             return
         }
         console.log("***TOTAL*** : ",total,ans.length)
+        console.log('result :',ans.map(prod=>prod.name),'total results',total,' || page',page,' || totalPages',Math.ceil(total/PAGE_SIZE))
         res.status(200).json({
             data:ans,
             page:page,
             total,
             totalPages:Math.ceil(total/PAGE_SIZE)
         })
+
     } catch (error) {
         next(error)
     }
