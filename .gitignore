@@ -10,3 +10,4 @@ npm-debug.log
 seed/scrape/data.json
 seed/scrape/scrape-old.js
 seed/test
+seed/mining.sqlite

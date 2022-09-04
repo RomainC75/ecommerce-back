@@ -8,7 +8,7 @@ const weightSchema = new Schema({
 const productSchema = new Schema({
     brand: {type: String, required:true},
     name: {type: String, required:true, unique:true},
-    price: {type: Number, required:true},
+    price: {type:  Schema.Types.Mixed, required:true},
     priceType: {type:String, enum:['unit','kg'],default:"unit", required:true},
     stockQuantity: {type: Number, required:true},
     pictures:[{type:String}],
@@ -17,7 +17,7 @@ const productSchema = new Schema({
     //subCategory:{type:String, required:true},
     originCountry: {type:String},
     weight:weightSchema,
-    promo:{type:String}
+    promo:{type:Number}
     // size:{
     //     h:{type:Number},
     //     l:{type:Number},

@@ -84,7 +84,6 @@ router.get("/promo", async(req,res,next)=>{
     console.log('===>PROMO ! ')
     const PAGE_SIZE=5
     const page = parseInt(req.query.page || "1")
-    console.log('page query : ',page,req.query)
     try {
         // const total = await Product.countDocuments({promo:{$exists:true}})
         const total = await Product.countDocuments({promo:{$exists:true}})
