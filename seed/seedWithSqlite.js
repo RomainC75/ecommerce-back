@@ -49,7 +49,7 @@ const feedWithProducts = () =>{
     return new Promise ( async (resolve, reject)=>{
         try {
             const delAns = await Product.deleteMany()
-            const delAns = await Cart.deleteMany()
+            const CartDelAns = await Cart.deleteMany()
             const productsToHandle = await getDBObjects()
             await Promise.all( productsToHandle.filter((prod,i)=>i<=12626).map(async (objProd)=>{
                 console.log(objProd)
