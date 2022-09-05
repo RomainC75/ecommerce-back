@@ -22,33 +22,29 @@ router.get('/',async (req,res,next)=>{
 router.get('/category/:category',async (req,res,next)=>{
     console.log('==>page : ',req.query)
     const PAGE_SIZE=20
-    const page = parseInt(req.query.page || "0")
+    const page = parseInt(req.query.page || "1")
     
     try {
-        console.log("=================================")
-        console.log("=================================")
         console.log("=================================")
         console.log("=================================")
         console.log('-->',req.params.category)
         console.log('==>',categoriesTranslator)
         const translateLine = categoriesTranslator.find(bothT=>bothT[1]===req.params.category)
 
-        const subCategories = [...new Set((await Product.find({categories:{$in:[translateLine[0]]}})).map(prod=>prod.categories.filter((subCat,i)=>i===1)).flat())]
+        const subCategories = [...new Set((await Product.find({category:translateLine[0]})).map(prod=>prod.subCategories.filter((subCat,i)=>i===0)).flat())]
         console.log('SUBCategories : ',subCategories)
 
         const rq= Object.keys(req.query).includes('subCat') ? {
             $and:[
                 {price:{$gt:parseInt(req.query.minPrice)}},
                 {price:{$lt:parseInt(req.query.maxPrice)}},
-                {categories:
-                    req.query.subCat==="All" ? {$in:[translateLine[0]]} : {$in:[req.query.subCat]}
-                },
+                req.query.subCat==="All" ? {category:translateLine[0]} : {subCategories:{$in:[req.query.subCat]}}
             ]
-            }:{categories:{$in:[translateLine[0]]}}
+            }:{category:translateLine[0]}
 
         console.log('RQ : ', JSON.stringify(rq))
         
-        const maxPrice = await Product.find(rq).sort({price:-1}).limit(1)
+        const maxPrice = (await Product.find(rq)).filter(prod=>prod.price!=='Indisponible').sort((a,b)=>b.price-a.price)
         console.log("maxPrice : ", maxPrice[0].price)
 
         const total = await Product.countDocuments(rq)
@@ -59,6 +55,7 @@ router.get('/category/:category',async (req,res,next)=>{
             .skip(PAGE_SIZE*(page-1))
 
         console.log('-->CATEGORY / ans : ',ans.length)
+
         if(ans.length===0){
             res.status(404).json({message:"category not found"})
             return
