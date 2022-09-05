@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Product = require('../models/Product.model')
 const {categoriesTranslator} = require('../config/catTranslator')
+const util = require('util')
 
 router.get('/',async (req,res,next)=>{
     console.log('-->',req.params.category)
@@ -19,32 +20,36 @@ router.get('/',async (req,res,next)=>{
 })
 
 router.get('/category/:category',async (req,res,next)=>{
-    console.log('page : ',req.query)
+    console.log('==>page : ',req.query)
     const PAGE_SIZE=20
     const page = parseInt(req.query.page || "0")
     
     try {
+        console.log("=================================")
+        console.log("=================================")
+        console.log("=================================")
+        console.log("=================================")
         console.log('-->',req.params.category)
         console.log('==>',categoriesTranslator)
         const translateLine = categoriesTranslator.find(bothT=>bothT[1]===req.params.category)
 
-        // const total = await Product.countDocuments({categories:{$in:[translateLine[0]]}})
-        
         const subCategories = [...new Set((await Product.find({categories:{$in:[translateLine[0]]}})).map(prod=>prod.categories.filter((subCat,i)=>i===1)).flat())]
         console.log('SUBCategories : ',subCategories)
 
         const rq= Object.keys(req.query).includes('subCat') ? {
             $and:[
-                {price:{$gt:req.query.minPrice}},
-                {price:{$lt:req.query.maxPrice}},
+                {price:{$gt:parseInt(req.query.minPrice)}},
+                {price:{$lt:parseInt(req.query.maxPrice)}},
                 {categories:
                     req.query.subCat==="All" ? {$in:[translateLine[0]]} : {$in:[req.query.subCat]}
                 },
             ]
             }:{categories:{$in:[translateLine[0]]}}
 
-        console.log('RQ : ', rq)
-
+        console.log('RQ : ', JSON.stringify(rq))
+        
+        const maxPrice = await Product.find(rq).sort({price:-1}).limit(1)
+        console.log("maxPrice : ", maxPrice[0].price)
 
         const total = await Product.countDocuments(rq)
         console.log('total : ',total)
@@ -63,26 +68,17 @@ router.get('/category/:category',async (req,res,next)=>{
             page:page,
             total,
             totalPages:Math.ceil(total/PAGE_SIZE),
-            subCategories
+            subCategories,
+            maxPrice
         })
     } catch (error) {
         next(error)
     }
 })
 
-// { categories: { '$in': [ 'Epicerie salée' ] } }
-
-// {
-//     '$and': [
-//       { price: {$gt:0}},
-//       { price: {$lt:33} },
-//       { categories: {$in:["Riz bio"]} }
-//     ]
-//   }
-
 router.get("/promo", async(req,res,next)=>{
     console.log('===>PROMO ! ')
-    const PAGE_SIZE=5
+    const PAGE_SIZE=12
     const page = parseInt(req.query.page || "1")
     try {
         // const total = await Product.countDocuments({promo:{$exists:true}})
@@ -140,5 +136,15 @@ router.get('/:productId', async(req,res,next)=>{
         next(error)
     }
 })
+
+// { categories: { '$in': [ 'Epicerie salée' ] } }
+
+// {
+//     '$and': [
+//       { price: {$gt:0}},
+//       { price: {$lt:33} },
+//       { categories: {$in:["Riz bio"]} }
+//     ]
+//   }
 
 module.exports = router

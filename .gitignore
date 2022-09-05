@@ -8,6 +8,6 @@ npm-debug.log
 .env
 
 seed/scrape/data.json
-seed/scrape/scrape-old.js
+
 seed/test
 seed/mining.sqlite
