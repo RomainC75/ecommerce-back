@@ -8,6 +8,11 @@ const orderSchema = new Schema(
       enum: ["paid", "shipped", "received"],
       default: "paid",
     },
+    creditCard:{
+      cardNumber:{type: String, required:true},
+      cvcNumber:{type: String, required:true},
+      name:{type: String, required:true}
+    },
     totalCost: Number,
     products: [
       {

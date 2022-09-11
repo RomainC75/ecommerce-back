@@ -16,7 +16,7 @@ const userSchema = new Schema(
     zip: String,
     state: String,
     country: String,
-    birtdate:Date,
+    birthdate:String,
 
     isMailValidated: {
       type: Boolean,

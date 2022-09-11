@@ -12,6 +12,8 @@ const cartSchema = new Schema({
   userId: {
     type: SchemaTypes.ObjectId,
     ref: "User",
+    unique:true,
+    required:true
   },
   products: [productToOrder]
 },{
