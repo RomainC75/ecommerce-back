@@ -9,13 +9,7 @@ const authentication = require("../middlewares/authentication.mid");
 require("dotenv").config();
 console.log("inside : ", process.env.EMAILEE, process.env.EMAILEE_PASS);
 
-let transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: process.env.EMAILGMAIL,
-    pass: process.env.EMAILGMAIL_PASS,
-  },
-});
+
 
 router.get("/verify", authentication, async (req, res, next) => {
   try {
@@ -58,6 +52,14 @@ router.post("/signup", possibleCredentials, async (req, res, next) => {
       { expiresIn: "3d" }
     );
     //email
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAILGMAIL,
+        pass: process.env.EMAILGMAIL_PASS,
+      }
+    });
+    
     transporter
       .sendMail({
         from: process.env.EMAILGMAIL,

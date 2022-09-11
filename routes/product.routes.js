@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const Product = require('../models/Product.model')
 const {categoriesTranslator} = require('../config/catTranslator')
-const util = require('util')
 
 router.get('/',async (req,res,next)=>{
     console.log('-->',req.params.category)
