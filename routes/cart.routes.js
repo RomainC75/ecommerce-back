@@ -73,19 +73,16 @@ router.post('/',authentication, async(req,res,next)=>{
         }
         //test values inside the request
         if(Array.isArray(req.body)){
-            // req.body.forEach(val=>{
-            //   if(!'productId' in val || !'quantity' in val){
-            //     res.status(404).json({message:'data format problem (object)'})
-            //     return
-            //   }  
-            // })
             const ans = await Cart.create({
                 userId:req.user._id,
                 products:req.body
             })
-            res.status(200).json(ans)
-            return
-
+            if(ans){
+                const newCartAns = await Cart.findOne({userId:req.user._id}).populate('products.productId')
+                console.log("POST new cart ANS : ",newCartAns)
+                res.status(200).json(newCartAns)
+                return
+            }
         }
         res.status(404).json({message: 'data format problem (array'})
     } catch (error) {
@@ -102,6 +99,7 @@ router.patch('/',authentication, async (req,res,next)=>{
             return
         }
         const ansUpdate = await Cart.findOneAndUpdate({userId:req.user._id},{products:req.body},{new:true}).populate('products.productId')
+        console.log("UPDATE cart ANS : ",ans)
         res.status(200).json(ansUpdate)
     } catch (error) {
         next(error)
