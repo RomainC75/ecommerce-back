@@ -92,7 +92,7 @@ router.post("/signin", possibleCredentials, async (req, res, next) => {
       return;
     }
     if (!recordedUser.isMailValidated) {
-      res.status(404).json({ message: "email not validated" });
+      res.status(404).json({ message: "email not validated, please check you email box" });
       return;
     }
     console.log("recordedUser._id", recordedUser._id);
