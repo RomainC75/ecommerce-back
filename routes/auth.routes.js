@@ -120,7 +120,7 @@ router.post("/getresettoken", async (req, res, next) => {
     console.log("reset request", req.body.email);
     const foundUser = await User.findOne({ email: req.body.email });
     if (!foundUser) {
-      res.status(400).json({ message: "user not found !" });
+      res.status(400).json({ message: "email not found !" });
       return;
     }
     console.log("found", foundUser);
@@ -138,7 +138,7 @@ router.post("/getresettoken", async (req, res, next) => {
     );
 
     console.log("emailToken", emailToken);
-    res.status(202).json({message:"get the request, check your emails !"})
+    res.status(202).json({message:"got the request, check your emails !"})
     
   } catch (error) {
     next(error);
