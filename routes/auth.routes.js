@@ -5,11 +5,31 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const possibleCredentials = require("../middlewares/possibleCredentials.mid");
 const authentication = require("../middlewares/authentication.mid");
+const {resetPasswordHTML} = require('../pages/passwordReset')
 
 require("dotenv").config();
 console.log("inside : ", process.env.EMAILEE, process.env.EMAILEE_PASS);
 
+const sendEmail = (email, subject, text, html) => {
+  let transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: process.env.EMAILGMAIL,
+      pass: process.env.EMAILGMAIL_PASS,
+    },
+  });
 
+  transporter
+    .sendMail({
+      from: process.env.EMAILGMAIL,
+      to: email,
+      subject: text,
+      text: subject,
+      html: html,
+    })
+    .then((info) => console.log("-->email sent :-) !!", info))
+    .catch((error) => console.log("-->nodemailer error : ", error));
+};
 
 router.get("/verify", authentication, async (req, res, next) => {
   try {
@@ -39,10 +59,8 @@ router.post("/signup", possibleCredentials, async (req, res, next) => {
       email,
       password: hash,
       emailValidationCode,
-      address : {country :"", number : "", street : "", zipcode : "", city : "" }
+      address: { country: "", number: "", street: "", zipcode: "", city: "" },
     });
-    console.log("user ID : ", ans);
-
 
     res.status(201).json(ans);
 
@@ -52,24 +70,12 @@ router.post("/signup", possibleCredentials, async (req, res, next) => {
       { expiresIn: "3d" }
     );
     //email
-    let transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.EMAILGMAIL,
-        pass: process.env.EMAILGMAIL_PASS,
-      }
-    });
-    
-    transporter
-      .sendMail({
-        from: process.env.EMAILGMAIL,
-        to: email,
-        subject: "email verification",
-        text: "email verification",
-        html: `<b>Awesome Message</b> <a href="${process.env.BACKENDADDRESS}/emailconfirmation/${emailToken}">Click on the link below :</a>`,
-      })
-      .then((info) => console.log("-->email sent :-) !!", info))
-      .catch((error) => console.log("-->nodemailer error : ", error));
+    sendEmail(
+      email,
+      "email verification",
+      "email verification",
+      `<b>Awesome Message</b> <a href="${process.env.BACKENDADDRESS}/emailconfirmation/${emailToken}">Click on the link below :</a>`
+    );
   } catch (e) {
     next(e);
   }
@@ -92,7 +98,9 @@ router.post("/signin", possibleCredentials, async (req, res, next) => {
       return;
     }
     if (!recordedUser.isMailValidated) {
-      res.status(404).json({ message: "email not validated, please check you email box" });
+      res
+        .status(404)
+        .json({ message: "email not validated, please check you email box" });
       return;
     }
     console.log("recordedUser._id", recordedUser._id);
@@ -106,5 +114,53 @@ router.post("/signin", possibleCredentials, async (req, res, next) => {
     next(e);
   }
 });
+
+router.post("/getresettoken", async (req, res, next) => {
+  try {
+    console.log("reset request", req.body.email);
+    const foundUser = await User.findOne({ email: req.body.email });
+    if (!foundUser) {
+      res.status(400).json({ message: "user not found !" });
+      return;
+    }
+    console.log("found", foundUser);
+    const emailToken = jwt.sign(
+      { email: req.body.email },
+      process.env.TOKEN_SECRET,
+      { expiresIn: "3d" }
+    );
+
+    sendEmail(
+      req.body.email,
+      "email reset",
+      "email reset",
+      resetPasswordHTML(process.env.ORIGIN,emailToken)
+    );
+
+    console.log("emailToken", emailToken);
+    res.status(202).json({message:"get the request, check your emails !"})
+    
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/resetpasswordwithtoken', async (req,res,next)=>{
+  try {
+    const data = jwt.verify(req.body.token,process.env.TOKEN_SECRET)
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(req.body.password, salt);
+
+    const user= await User.findOneAndUpdate({email:data.email},{password:hash},{new:true})
+    if(!user){
+      res.status(400).json({message:"oups, something went wrong while updating the password !"})
+      return
+    }
+    res.status(202).json({message:"updated"})
+  } catch (error) {
+    next(error)
+  }
+})
 
 module.exports = router;
