@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const nodemailer = require("nodemailer");
 const User = require("../models/User.model");
+const Admin = require("../models/Admin.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const possibleCredentials = require("../middlewares/possibleCredentials.mid");
@@ -31,6 +32,8 @@ const sendEmail = (email, subject, text, html) => {
     .catch((error) => console.log("-->nodemailer error : ", error));
 };
 
+//========================
+
 router.get("/verify", authentication, async (req, res, next) => {
   try {
     console.log("VERIFY : --->", req.user);
@@ -40,8 +43,49 @@ router.get("/verify", authentication, async (req, res, next) => {
   }
 });
 
+router.post("/signup/admin", possibleCredentials, async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const recordedUser = await Admin.findOne({ email });
+    console.log("recordedUser", recordedUser);
+    // if (recordedUser !== null) {
+    //   res
+    //     .status(400)
+    //     .json({ message: "user already exists ! try another one!" });
+    //   return;
+    // }
+    // const salt = await bcrypt.genSalt(10);
+    // const hash = await bcrypt.hash(password, salt);
+    // const emailValidationCode = Math.random() * 1000;
+    // const ans = await User.create({
+    //   email,
+    //   password: hash,
+    //   emailValidationCode,
+    //   address: { country: "", number: "", street: "", zipcode: "", city: "" },
+    // });
+
+    // res.status(201).json(ans);
+
+    // const emailToken = jwt.sign(
+    //   { email: email, emailValidationCode },
+    //   process.env.TOKEN_SECRET,
+    //   { expiresIn: "3d" }
+    // );
+    // //email
+    // sendEmail(
+    //   email,
+    //   "email verification",
+    //   "email verification",
+    //   `<b>Awesome Message</b> <a href="${process.env.BACKENDADDRESS}/emailconfirmation/${emailToken}">Click on the link below :</a>`
+    // );
+  } catch (e) {
+    next(e);
+  }
+});
+
+
 //create a Cart
-router.post("/signup", possibleCredentials, async (req, res, next) => {
+router.post("/signup/", possibleCredentials, async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const recordedUser = await User.findOne({ email });
