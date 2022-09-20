@@ -35,6 +35,8 @@ const sendEmail = (email, subject, text, html) => {
 //========================
 
 router.get("/verify", authentication, async (req, res, next) => {
+
+  console.log("HEADERS : ",req.headers)
   try {
     console.log("VERIFY : --->", req.user);
     res.status(200).json(req.user);
@@ -88,7 +90,14 @@ router.post("/signup/", possibleCredentials, async (req, res, next) => {
 router.post("/signin", possibleCredentials, async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const recordedUser = await User.findOne({ email });
+    console.log("==>login headers", req.headers)
+    let Account = null
+    if('isadmin' in req.headers && req.headers.isadmin==='true'){
+      Account=Admin
+    }else{
+      Account=User
+    }
+    const recordedUser = await Account.findOne({ email });
     if (recordedUser === null) {
       res.status(404).json({ message: "user not found !" });
       return;
