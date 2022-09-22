@@ -5,12 +5,9 @@ const Order = require('../models/Order.model')
 router.get('/',authentication, async(req,res,next)=>{
     try {
         console.log('got the ORDER request ! ', req.user)
-        const ans = await Order.find({payementStatus:"paid"}).select({creditCard:0}).sort({createdAt:1})
-
+        const ans = await Order.find({payementStatus:"paid"}).select({creditCard:0}).sort({createdAt:1}).populate('products.productId')
         console.log('ans : ',ans)
-
         res.status(200).json(ans)
-
     } catch (error) {
         next(error)
     }

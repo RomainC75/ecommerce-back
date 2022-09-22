@@ -36,7 +36,7 @@ router.post("/signup", possibleCredentials, async (req, res, next) => {
       res.status(201).json(ans);
   
       const emailToken = jwt.sign(
-        { email: email, emailValidationCode, isAdmin:true },
+        { userId: email, emailValidationCode, isAdmin:true },
         process.env.TOKEN_SECRET,
         { expiresIn: "3d" }
       );
