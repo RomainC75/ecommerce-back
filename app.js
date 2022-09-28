@@ -16,7 +16,15 @@ require("./config")(app);
 
 
 //-----------------------
+// const { Server } = require('socket.io')
+// const io = new Server(process.env.SOCKET_PORT,{ 
+//     cors: {
+//       origin: "http://localhost:3000",
+//       methods: ["GET","POST"]
+//     }
+//   })
 
+// app.set('socketio',io)
 
 
 //-----------------------
@@ -33,7 +41,8 @@ app.use("/user",require('./routes/user.routes'))
 //admin
 app.use("/admin/auth",require('./routes/adminAuth.route'))
 app.use("/order",require('./routes/order.route'))
-
+app.use("/room",require('./routes/room.route'))
+app.use("/message",require('./routes/message.route'))
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

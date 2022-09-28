@@ -13,9 +13,9 @@ require("dotenv").config();
 console.log("inside : ", process.env.EMAILEE, process.env.EMAILEE_PASS);
 
 router.get("/verify", authentication, async (req, res, next) => {
-  console.log("HEADERS : ",req.headers)
+  // console.log("HEADERS : ",req.headers)
   try {
-    console.log("VERIFY : --->", req.user);
+    // console.log("VERIFY : --->", req.user);
     res.status(200).json(req.user);
   } catch (e) {
     next(e);
