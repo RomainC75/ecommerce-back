@@ -61,6 +61,7 @@ const socket = () =>{
             receiverType:'User'
           })
           socket.to(data.room).emit("admin_to_user",data)
+          io.in("adminRoom").emit("receive_message",data)
         })
 
         socket.on("join_room", async(data)=>{
@@ -94,6 +95,8 @@ const socket = () =>{
           socket.to("adminRoom").emit("receive_message",{
             room:data.room
           })
+          // socket.to(data.room).emit("admin_to_user",data)
+          io.in(data.room).emit("admin_to_user",data)
         })
       
         // socket.join('clock-room')
