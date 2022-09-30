@@ -14,7 +14,8 @@ const jwt = require('jsonwebtoken')
 
 const io = new Server(process.env.SOCKET_PORT,{ 
   cors: {
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: process.env.ORIGIN,
     methods: ["GET","POST"]
   }
 })
@@ -62,7 +63,7 @@ const socket = () =>{
           })
           socket.to(data.room).emit("admin_to_user",data)
           io.in("adminRoom").emit("receive_message",data)
-          
+
         })
 
         socket.on("join_room", async(data)=>{
